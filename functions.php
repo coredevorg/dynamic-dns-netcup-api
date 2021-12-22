@@ -1,11 +1,5 @@
 <?php
 
-//Try to load required config.php, if it fails, output error, as user probably has not followed "Getting started" guide.
-if (!include_once('config.php')) {
-    outputStderr("Could not open config.php. Please follow the getting started guide and provide a valid config.php file. Exiting.");
-    exit(1);
-}
-
 //Declare possible options
 $quiet = false;
 $ipaddr = $_GET['ipaddr'];
@@ -21,6 +15,11 @@ if(isset($argv)){
 
 const SUCCESS = 'success';
 
+//Try to load required config.php, if it fails, output error, as user probably has not followed "Getting started" guide.
+if (!include_once('config.php')) {
+    outputStderr("Could not open config.php. Please follow the getting started guide and provide a valid config.php file. Exiting.");
+    exit(1);
+}
 
 //Checks if curl PHP extension is installed
 function _is_curl_installed() {
@@ -126,7 +125,7 @@ function outputStderr($message)
 function getCurrentPublicIPv4()
 {
     global $ipaddr;
-    
+
     if ($ipaddr) {
         return $ipaddr;
     }
