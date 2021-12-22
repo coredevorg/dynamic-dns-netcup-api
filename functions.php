@@ -8,6 +8,7 @@ if (!include_once('config.php')) {
 
 //Declare possible options
 $quiet = false;
+$ipaddr = $_GET['ipaddr'];
 
 //Check passed options
 if(isset($argv)){
@@ -73,7 +74,12 @@ function sendRequest($request)
 //Outputs $text to Stdout
 function outputStdout($message)
 {
-    global $quiet;
+    global $quiet, $ipaddr;
+
+    if ($ipaddr) {
+        error_log($message);
+        return;    
+    }
 
     //If quiet option is set, don't output anything on stdout
     if ($quiet === true) {
@@ -88,6 +94,13 @@ function outputStdout($message)
 //Outputs warning to stderr
 function outputWarning($message)
 {
+    global $quiet, $ipaddr;
+
+    if ($ipaddr) {
+        error_log($message);
+        return;    
+    }
+
     $date = date("Y/m/d H:i:s O");
     $output = sprintf("[%s][WARNING] %s\n", $date, $message);
 
@@ -97,6 +110,12 @@ function outputWarning($message)
 //Outputs error to Stderr
 function outputStderr($message)
 {
+    global $quiet, $ipaddr;
+
+    if ($ipaddr) {
+        error_log($message);
+        return;    
+    }
     $date = date("Y/m/d H:i:s O");
     $output = sprintf("[%s][ERROR] %s\n", $date, $message);
 
@@ -106,6 +125,12 @@ function outputStderr($message)
 //Returns current public IPv4 address.
 function getCurrentPublicIPv4()
 {
+    global $ipaddr;
+    
+    if ($ipaddr) {
+        return $ipaddr;
+    }
+
     $publicIP = rtrim(file_get_contents('https://api.ipify.org'));
 
     //Let's check that this is really a IPv4 address, just in case...
