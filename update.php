@@ -7,14 +7,14 @@ require_once 'functions.php';
 outputStdout("=============================================");
 outputStdout("Running dynamic DNS client for netcup 2.0.1");
 outputStdout("This script is not affiliated with netcup.");
-outputStdout("=============================================\n");
+outputStdout("=============================================");
 
 if (! _is_curl_installed()) {
     outputStderr("cURL PHP extension is not installed. Please install the cURL PHP extension, otherwise the script will not work. Exiting.");
     exit(1);
 }
 
-outputStdout(sprintf("Updating DNS records for host %s on domain %s\n", HOST, DOMAIN));
+outputStdout(sprintf("Updating DNS records for host %s on domain %s", HOST, DOMAIN));
 
 // Login
 if ($apisessionid = login(CUSTOMERNR, APIKEY, APIPASSWORD)) {
